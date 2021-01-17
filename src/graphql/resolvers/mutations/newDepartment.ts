@@ -1,11 +1,15 @@
-import { ApolloError } from 'apollo-server'
+import {IUser} from './../../../custom.d'
+import {ApolloError} from 'apollo-server'
 import Department from '../../../models/Department'
-export default async (_: any, { input }: any) => {
+
+interface IInput {
+  input: IUser
+}
+export default async (_: any, {input}: IInput) => {
   try {
     // const { id, username, userId } = isAuth(context)
     //TODO: username and created by miss match
     const newDepartment = new Department({
-      id: input.id,
       name: input.name
     })
 

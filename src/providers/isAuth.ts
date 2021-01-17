@@ -1,30 +1,22 @@
-import { IUser } from './../custom.d'
-import { AuthenticationError } from 'apollo-server'
+import {secret_key} from './../config/secret'
+import {initialUserValue} from './../util/initial'
+import {IUser} from './../custom.d'
+import {AuthenticationError} from 'apollo-server'
 import jwt from 'jsonwebtoken'
 export default (context: any) => {
-  const initialUserValue = {
-    id: 'null',
-    name: null,
-    role: 'USER',
-    email: null,
-    phone: null
-  }
-
   try {
-    const authHeader = context.req.headers.authorization || ''
+    const authHeader = context.req.headers.authorization
 
     const isHeader = (authHeader: string): IUser => {
       const token = authHeader.split('Bearer ')[1]
       if (!token) {
         //throw new AuthenticationError('missing token')
-        return { ...initialUserValue }
+        return {...initialUserValue}
       }
       //@ts-ignore
-      const user: IUser = jwt.verify(token, 'someverysecretkey') || {
-        ...initialUserValue
-      }
-      if (!user.id) return { ...initialUserValue }
-      return { ...initialUserValue, ...user }
+      const user: IUser = jwt.verify(token, secret_key)
+      if (!user.id) return {...initialUserValue}
+      return {...initialUserValue, ...user}
     }
 
     const currentUser: IUser = isHeader(authHeader)
@@ -51,7 +43,7 @@ export default (context: any) => {
   } catch (err) {
     console.log(err)
     return {
-      currentUser: { ...initialUserValue }
+      currentUser: {...initialUserValue}
     }
   }
 }

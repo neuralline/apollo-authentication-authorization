@@ -1,4 +1,5 @@
-import { IUser } from 'src/custom'
+import {secret_key} from './../config/secret'
+import {IUser} from 'src/custom'
 
 const jwt = require('jsonwebtoken')
 const generateToken = (user: IUser) => {
@@ -9,8 +10,8 @@ const generateToken = (user: IUser) => {
       name: user.name,
       role: user.role
     },
-    'someverysecretkey',
-    { expiresIn: '1h' }
+    secret_key,
+    {expiresIn: '1h'}
   )
 }
 

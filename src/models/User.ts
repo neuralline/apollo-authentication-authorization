@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import {Schema, model} from 'mongoose'
 
 const userSchema = new Schema({
   createdAt: {
@@ -30,8 +30,9 @@ const userSchema = new Schema({
     trim: true
   },
   department: {
-    type: String,
-    trim: true
+    type: Schema.Types.ObjectId,
+    ref: 'department',
+    required: false
   },
   role: {
     type: String,

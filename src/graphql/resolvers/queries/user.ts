@@ -1,14 +1,14 @@
+import User from '../../../models/User'
 import authenticatedFields from '../../../providers/authenticatedFields'
 import isAuth from '../../../providers/isAuth'
-import User from '../../../models/User'
+import {IUser} from './../../../custom.d'
+import {initialUserValue} from './../../../util/initial'
 
-export default async (_: any, { id }: any, context: any) => {
-  const user: any = await User.findOne({ _id: id })
+export default async (_: any, {id}: {id: string}, context: any) => {
+  const user: any = await User.findOne({_id: id})
 
-  const { currentUser } = isAuth(context)
-  console.log('currentUser --', currentUser)
+  const {currentUser} = isAuth(context)
+  const newUser: IUser[] = [user]
 
-  const role = currentUser.role || 'USER'
-
-  return authenticatedFields(user._doc, role)
+  return authenticatedFields(initialUserValue, newUser, currentUser)[0]
 }

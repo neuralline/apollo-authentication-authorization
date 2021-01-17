@@ -1,4 +1,5 @@
-import { User } from './graphql.d'
+import {isContext} from 'vm'
+import {User} from './graphql.d'
 export interface IError {
   general?: string
   email?: string
@@ -6,12 +7,12 @@ export interface IError {
   name?: string
 }
 
-interface mainUser {
+export interface IMainUser {
   id: string
   name: string
 }
 
-export interface IUser extends mainUser {
+export interface IUser extends IMainUser {
   id?: string
   name?: string
   email?: string
@@ -21,6 +22,14 @@ export interface IUser extends mainUser {
   password?: string
 }
 export enum Role {
-  User,
+  USER,
   ADMIN
+}
+
+export type IResolver = (parent: any, args: any, context: Context) => any
+
+export interface Context {
+  req: Express.Request
+  url: string
+  userLoader: ReturnType<typeof userLoader>
 }

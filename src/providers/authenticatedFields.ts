@@ -1,19 +1,26 @@
-import { IUser } from '../custom'
-const authenticatedFields = (user: IUser, role: string): IUser => {
-  const initialUserValue = {
-    id: 'unknown',
-    name: null,
-    role: 'USER',
-    email: null,
-    phone: null
-  }
+import {IUser} from './../custom.d'
 
+interface SUser extends IUser {
+  _doc?: IUser
+  _id?: string
+}
+
+const authenticatedFields = (
+  initialState: IUser,
+  users: IUser[],
+  currentUser: IUser
+): IUser[] => {
   try {
-    return role === 'USER'
-      ? { ...initialUserValue, ...user, role: null, department: null }
-      : { ...user }
+    const rule =
+      currentUser.role === 'USER'
+        ? {role: null, department: null, password: ''}
+        : {password: ''}
+    const serialisedFields: IUser[] = users.map((user: SUser) => {
+      return {id: user._id, ...user._doc, ...rule}
+    })
+    return serialisedFields
   } catch (error) {
-    return { ...initialUserValue }
+    return [{...initialState}]
   }
 }
 export default authenticatedFields
