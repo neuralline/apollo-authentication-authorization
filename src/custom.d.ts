@@ -28,8 +28,9 @@ export enum Role {
 
 export type IResolver = (parent: any, args: any, context: Context) => any
 
-export interface Context {
+export interface IContext {
   req: Express.Request
   url: string
+  session: string
   userLoader: ReturnType<typeof userLoader>
 }

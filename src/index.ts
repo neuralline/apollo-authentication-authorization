@@ -1,3 +1,4 @@
+import {userLoader} from './loaders/UserLoader'
 import {ApolloServer} from 'apollo-server'
 import connectDB from './config/db'
 import resolvers from './graphql/resolvers'
@@ -10,7 +11,11 @@ connectDB()
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req}: any) => ({req})
+  context: ({req}: any) => ({
+    req,
+    session: req.headers.authorization || '',
+    userLoader: userLoader()
+  })
 })
 
 // The `listen` method launches a web server.

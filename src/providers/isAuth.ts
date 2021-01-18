@@ -1,11 +1,11 @@
 import {secret_key} from './../config/secret'
 import {initialUserValue} from './../util/initial'
-import {IUser} from './../custom.d'
+import {IUser, IContext} from './../custom.d'
 import {AuthenticationError} from 'apollo-server'
 import jwt from 'jsonwebtoken'
-export default (context: any) => {
+const isAuth = (context: IContext) => {
   try {
-    const authHeader = context.req.headers.authorization
+    const authHeader = context.session
 
     const isHeader = (authHeader: string): IUser => {
       const token = authHeader.split('Bearer ')[1]
@@ -47,3 +47,5 @@ export default (context: any) => {
     }
   }
 }
+
+export default isAuth

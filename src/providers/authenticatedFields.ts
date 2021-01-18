@@ -13,8 +13,8 @@ const authenticatedFields = (
   try {
     const rule =
       currentUser.role === 'USER'
-        ? {role: null, department: null, password: ''}
-        : {password: ''}
+        ? {role: null, department: null, password: null}
+        : {password: null}
     const serialisedFields: IUser[] = users.map((user: SUser) => {
       return {id: user._id, ...user._doc, ...rule}
     })
