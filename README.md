@@ -3,21 +3,27 @@
 ## Installation
 
 ```sh
-
-git clone https://github.com/neuralline/apollo-authentication-authorization.git
-
 # mongoDB required
 
+# clone repository
+git clone https://github.com/neuralline/apollo-authentication-authorization.git
 
+# install with
 npm install then npm run dev
 #or
 yarn install then yarn dev
 
-#then
+#playground
 http://localhost:4000/
 
 
 ```
+
+> user should be logged in to access me query or get initial state
+
+> users should not see role and telephone fields if they are not logged in and don't have admin credential
+
+> to change credentials assign new role by using newRole mutation to the user(you) then the user should be abel to query with admin privilege on the next login
 
 ### example query
 
