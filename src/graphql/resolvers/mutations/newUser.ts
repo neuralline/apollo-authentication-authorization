@@ -1,22 +1,21 @@
-import { UserInputError } from 'apollo-server'
+import {UserInputError} from 'apollo-server'
 import bcrypt from 'bcrypt'
 import User from '../../../models/User'
-import { IUser } from './../../../custom.d'
+import {IUser} from './../../../custom.d'
 interface IInput {
   input: IUser
 }
 
-export default async (_: any, { input }: IInput) => {
+export default async (_: any, {input}: IInput) => {
   try {
     //simple validation
-    console.log('input', input)
-    console.log('input.email', input.email)
-    const { email, phone, name } = input
+
+    const {email, phone, name} = input
     if (!email) {
       throw new UserInputError('Invalid input')
     }
     // TODO: Make sure user doesn't already exist
-    const user = await User.findOne({ email })
+    const user = await User.findOne({email})
     if (user) {
       //throw new UserInputError('email address not available')
       return {
@@ -28,7 +27,6 @@ export default async (_: any, { input }: IInput) => {
     // hash password and create an auth token
     const password = (await bcrypt.hash(input.password, 12)) || ''
 
-    console.log(email)
     const newUser: any = new User({
       email,
       phone,
@@ -39,7 +37,6 @@ export default async (_: any, { input }: IInput) => {
 
     //create user account
     const res = await newUser.save()
-    console.log('res._doc', res)
     return {
       //@ts-ignore
       ...res._doc,

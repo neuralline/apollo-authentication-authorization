@@ -21,9 +21,13 @@ http://localhost:4000/
 
 > user should be logged in to access me query or get initial state
 
-> users should not see role and telephone fields if they are not logged in and don't have admin credential
+> users should not see role and telephone fields if they are not logged in or don't have admin credential
 
 > to change credentials assign new role by using newRole mutation to the user(you) then the user should be abel to query with admin privilege on the next login
+
+> user can only propagate to admin level through assignRole mutation
+
+> Handles error on server side but returns null/default state to client
 
 ### example query
 
@@ -38,7 +42,7 @@ mutation newUser{
   }
 }
 
-mutation newRole{
+mutation assignRole{
   assignRole(input:{id:"60012eff2db32001bc0fa5aa", role:ADMIN}){
     id
     role

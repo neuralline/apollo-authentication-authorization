@@ -1,44 +1,43 @@
 import {Schema, model} from 'mongoose'
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-const userSchema = new Schema({
-  createdAt: {
-    type: Date,
-    required: true,
-    default: Date.now
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: [true, 'Name should not be empty']
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide your password']
+    },
+    email: {
+      type: String,
+      trim: true,
+      unique: true,
+      required: [true, 'email address is required'],
+      validate: {
+        validator: email => emailRegex.test(email),
+        message: 'must be a valid email address'
+      }
+    },
+
+    phone: {
+      type: String,
+      trim: true
+    },
+    department: {
+      type: Schema.Types.ObjectId,
+      ref: 'department'
+    },
+    role: {
+      type: String,
+      required: [true, 'User role should not be empty'],
+      enum: ['USER', 'ADMIN']
+    }
   },
-  updatedAt: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  name: {
-    type: String,
-    trim: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    trim: true,
-    required: true
-  },
-  phone: {
-    type: String,
-    trim: true
-  },
-  department: {
-    type: Schema.Types.ObjectId,
-    ref: 'department',
-    required: false
-  },
-  role: {
-    type: String,
-    trim: true,
-    required: true
-  }
-})
+  {timestamps: true}
+)
 
 export default model('user', userSchema)
