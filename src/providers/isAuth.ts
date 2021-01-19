@@ -1,9 +1,10 @@
 import {secret_key} from './../config/secret'
 import {initialUserValue} from './../util/initial'
-import {IUser, IContext} from './../custom.d'
+import {IUser, IContext, IsAuth} from './../custom.d'
 import {AuthenticationError} from 'apollo-server'
 import jwt from 'jsonwebtoken'
-const isAuth = (context: IContext) => {
+
+const isAuth = (context: IContext): IsAuth => {
   try {
     const authHeader = context.session
 
@@ -36,14 +37,17 @@ const isAuth = (context: IContext) => {
 
     return {
       currentUser,
-      isAuthorized,
-      isAuthenticated,
-      isOwner
+      isAuthorized: isAuthorized(),
+      isAuthenticated: isAuthenticated(),
+      isOwner: isOwner(currentUser.id)
     }
   } catch (err) {
     console.log(err)
     return {
-      currentUser: {...initialUserValue}
+      currentUser: {...initialUserValue},
+      isAuthorized: false,
+      isAuthenticated: false,
+      isOwner: false
     }
   }
 }

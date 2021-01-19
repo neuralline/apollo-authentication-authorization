@@ -17,11 +17,13 @@ export default gql`
 
   type Department {
     id: ID!
-    name: String!
-    users: [User!]
+    title: String!
+    user: User
   }
   input DepartmentInput {
-    name: String!
+    title: String!
+    userId: String
+    id: String
   }
 
   input RegisterInput {
@@ -48,6 +50,7 @@ export default gql`
     newUser(input: RegisterInput): User
     assignRole(input: UserId): User!
     newDepartment(input: DepartmentInput): Department!
+    assignDepartment(input: DepartmentInput): Department!
     login(email: String!, password: String!): String!
   }
 `

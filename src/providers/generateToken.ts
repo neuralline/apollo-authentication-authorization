@@ -1,8 +1,8 @@
 import {secret_key} from './../config/secret'
 import {IUser} from 'src/custom'
 
-const jwt = require('jsonwebtoken')
-const generateToken = (user: IUser) => {
+import jwt from 'jsonwebtoken'
+const generateToken = (user: IUser): string => {
   return jwt.sign(
     {
       id: user.id,

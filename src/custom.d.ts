@@ -34,3 +34,10 @@ export interface IContext {
   session: string
   userLoader: ReturnType<typeof userLoader>
 }
+
+interface IsAuth {
+  currentUser: IUser
+  isAuthorized: boolean
+  isAuthenticated: boolean
+  isOwner: boolean
+}

@@ -7,7 +7,7 @@ import {initialUserValue} from './../../../util/initial'
 
 export default async (_: any, req: any, context: any) => {
   try {
-    const users: any = await User.find().populate('department')
+    const users: any = await User.find({}, '-password').populate('department')
     const {currentUser} = isAuth(context)
     const newUser: IUser[] = [...users]
     return authenticatedFields(initialUserValue, newUser, currentUser)

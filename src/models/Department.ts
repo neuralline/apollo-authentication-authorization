@@ -1,15 +1,15 @@
-const {Schema, model} = require('mongoose')
+import {Schema, model} from 'mongoose'
 
 const departmentSchema = new Schema({
-  name: {
+  title: {
     type: String,
     trim: true,
-    required: true
+    unique: true,
+    required: [true, 'Department title is required']
   },
-  users: {
+  user: {
     type: Schema.Types.ObjectId,
-    ref: 'user',
-    required: false
+    ref: 'user'
   }
 })
 
