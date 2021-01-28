@@ -7,7 +7,6 @@ export default async (
   _: any,
   {id, email, password}: {id: string; email: string; password: string}
 ) => {
-  console.log('user login - ', id, email, password)
   const errors: IError = {}
   try {
     if (!email) throw new UserInputError('Errors', {errors: 'email problem'})
